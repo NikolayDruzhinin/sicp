@@ -1,0 +1,22 @@
+(define (square n) (* n n))
+
+(define (fib n)
+    (fib-iter 1 0 0 1 n))
+
+(define (fib-iter a b p q count)
+    ;(print a b p q count)
+    (cond ((= count 0) b)
+          ((even? count)
+                  (fib-iter a b (+ (square p) (square q)) 
+                            (+ (* 2 q p) (square q)) (/ count 2)))
+              (else (fib-iter (+ (* b q) (* a q) (* a p)) 
+                              (+ (* b p) (* a q)) p q (- count 1)))))
+
+(define (test-fib n)
+    (display "Fib1(")
+    (display n)
+    (display ") = ")
+    (display (fib n)) (newline)
+    (if (> n 0) 
+        (test-fib (- n 1))))
+(test-fib 20)
