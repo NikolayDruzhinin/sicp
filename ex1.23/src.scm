@@ -7,7 +7,7 @@
   (start-prime-test n (current-inexact-milliseconds)))
 
 (define (start-prime-test n start-time)
-  (cond ((fast-prime? n) 
+  (cond ((prime? n) 
   (newline)
   (display n)
   (report-prime (- (current-inexact-milliseconds) start-time)))))
