@@ -4,8 +4,13 @@
 
 (define (even? n)
   (= (remainder n 2) 0))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp) (remainder (square (expmod base (/ exp 2) m)) m))
+  (else (remainder (* base (expmod base (- exp 1) m)) m))))
   
-(define (fast-prime? n times)
+(define (fast-prime2? n times)
 
   (define (fp-iter times n)
     (cond ((= times 0) #t)
@@ -31,6 +36,6 @@
   (fp-iter times n))
 
 
-(display (fast-prime? 3 10)) (newline)
-(display (fast-prime? 9 10)) (newline)
-(display (fast-prime? 561 10)) (newline)
+(display (fast-prime2? 3 10)) (newline)
+(display (fast-prime2? 9 10)) (newline)
+(display (fast-prime2? 561 10)) (newline)
