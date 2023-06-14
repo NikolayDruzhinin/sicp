@@ -16,18 +16,14 @@
 
 (define (simpson-integral f a b n)
   (define h (/ (- b a) n))
+  
   (define (next-h x)
-    (+ x h))
-  (define (simp-sum term aa next bb coeff)
-    (define factor
-      (cond ((or (= coeff 0) (= coeff n)) 1)
-            ((= (remainder coeff 2) 1) 4)
-            (else 2)))
-    (if (> aa bb)
-        0
-        (+ (* factor (term aa))
-           (simp-sum term (next aa) next bb (+ coeff 1)))))
-  (* (simp-sum f a next-h (- b a) 0) (/ h 3.0)))
+    (+ x (* 2 h)))
+  
+  (define (simp-term x)
+    (+ (f x) (* 4 (f (+ x h))) (f (+ x (* 2 h)))))
+  
+  (* (sum simp-term a next-h (- b (* 2 h))) (/ h 3.0)))
 
 (integral cube 0 1 0.001)
 (simpson-integral cube 0 1 1000)
