@@ -10,7 +10,7 @@
     (if (> n b)
         res
         (iter (next n) (* res (term n)))))
-  (iter a 1))
+  (iter a 1.0))
 
 (define (factorial x)
   (define (ident x) x)
@@ -24,16 +24,18 @@
     (/ (* x (+ x 2)) (square (+ x 1.0))))
   (define (pi-next x)
     (+ x 2))
-  (* (product pi-term 2 pi-next (- n 2)) 4))
+  (* (product pi-term 2 pi-next n) 4))
 
 (define (pi-iter n)
   (define (pi-term x)
-    (/ (* x (+ x 2)) (square (+ x 1.0))))
+    (/ (* x (+ x 2)) (square (+ x 1))))
   (define (pi-next x)
     (+ x 2))
-  (* (product-iter pi-term 2 pi-next (- n 2)) 4))
+  (* (product-iter pi-term 2 pi-next n) 4))
 
 (factorial 5)
 (factorial 10)
+(pi-rec 100)
+(pi-iter 100)
 (pi-rec 1000)
 (pi-iter 1000)
