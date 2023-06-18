@@ -1,0 +1,18 @@
+#lang sicp
+
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+(define (product-iter term a next b)
+  (define (iter n res)
+    (if (> n b)
+        res
+        (iter (next n) (* res (term n)))))
+  (iter a 1.0))
+
+(define (accumulate combiner null-value term a next b)
+  
