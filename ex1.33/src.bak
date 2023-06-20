@@ -1,0 +1,40 @@
+#lang sicp
+
+(define (filtered-accumulate predicate? combiner null-value term a next b)
+  (define (iter a result)
+    (cond ((> a b) result)
+          ((predicate? a) (iter (next a) (combiner result (term a))))
+          (else (iter (next a) result))))
+  (iter a null-value))
+
+(define (sum a b) (+ a b))
+(define (square n) (* n n))
+(define (next n)
+  (if (even? n) (+ n 1) (+ n 2)))
+;the sum of the squares of the prime numbers in the interval a to b
+;(assuming that you have a prime? predicate already written)
+(define (prime? n)
+  (define (fp-iter times n)
+    (cond ((= times 0) #t)
+          ((mr-test n) (fp-iter (- times 1) n))
+          (else #f)))
+
+  (define (mr-test n)
+    (define (try-it a)
+      (= (expmod-mr a n n) a))
+    (try-it (+ 1 (random (- n 1)))))
+
+  (define (expmod-mr base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp) (remainder (square-mr (expmod-mr base (/ exp 2) m)) m))
+  (else (remainder (* base (expmod-mr base (- exp 1) m)) m))))
+
+  (define (square-mr x)
+    (define y (remainder (square x) n))
+    (if (and (= y 1) (not (eq? x 1)) (not (eq? x (- n 1))))
+        0
+        y))
+
+  (fp-iter 10 n))
+
+(filtered-accumulate prime? sum 0 square 2 next 7) ; 3^2 + 5^2 + 7^2 = 
